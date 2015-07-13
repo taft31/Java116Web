@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - java116Web@localhost" uuid="6553b17f-ab1d-405f-93d6-c66ce6ac1f0b">
+    <database-info product="MySQL" version="5.6.21" jdbc-version="4.0" driver-name="MySQL-AB JDBC Driver" driver-version="mysql-connector-java-5.1.20 ( Revision: tonci.grgin@oracle.com-20111003110438-qfydx066wsbydkbw )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="mixed" quoted-identifiers="upper"/>
+    <schema name="" catalog="java116Web"/>
+    <table name="BuyCar" schema="" catalog="java116Web" type="TABLE">
+      <column name="buyCarID" sqlType="CHAR" precision="32" scale="0" nullable="false" jdbcType="1" def="Jyc="/>
+      <column name="userID" sqlType="CHAR" precision="32" scale="0" nullable="true" jdbcType="1"/>
+      <column name="goodID" sqlType="CHAR" precision="32" scale="0" nullable="true" jdbcType="1"/>
+      <column name="goodCount" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="buyCarID"/>
+      <foreign-key name="bc_good" columns="goodID" ref-table="Goods" ref-schema="" ref-catalog="java116Web" ref-columns="goodID" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="bc_user" columns="userID" ref-table="Users" ref-schema="" ref-catalog="java116Web" ref-columns="userID" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="bc_user" unique="false" columns="userID"/>
+      <index name="bc_good" unique="false" columns="goodID"/>
+    </table>
+    <table name="Goods" schema="" catalog="java116Web" type="TABLE">
+      <column name="goodID" sqlType="CHAR" precision="32" scale="0" nullable="false" jdbcType="1" def="Jyc="/>
+      <column name="goodBatch" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="goodName" sqlType="VARCHAR" precision="32" scale="0" nullable="true" jdbcType="12"/>
+      <column name="goodPrice" sqlType="DOUBLE" precision="22" scale="0" nullable="true" jdbcType="8"/>
+      <column name="goodMadeTime" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <column name="goodExpireTime" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="goodImg" sqlType="VARCHAR" precision="32" scale="0" nullable="true" jdbcType="12"/>
+      <column name="goodState" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" def="MQ=="/>
+      <primary-key name="PRIMARY" columns="goodID,goodBatch"/>
+      <exported-key name="bc_good" table="BuyCar" schema="" catalog="java116Web" columns="goodID"/>
+      <exported-key name="Inner_good" table="InnerStock" schema="" catalog="java116Web" columns="goodID,goodBatch"/>
+      <exported-key name="orderDetail_good" table="OrderDetails" schema="" catalog="java116Web" columns="goodID"/>
+      <exported-key name="outter_good" table="OutterStock" schema="" catalog="java116Web" columns="goodID,goodBatch"/>
+      <exported-key name="good_stock" table="stock" schema="" catalog="java116Web" columns="goodID,goodBatch"/>
+      <exported-key name="stock_good" table="stock" schema="" catalog="java116Web" columns="goodID"/>
+    </table>
+    <table name="InnerStock" schema="" catalog="java116Web" type="TABLE">
+      <column name="innerID" sqlType="CHAR" precision="32" scale="0" nullable="false" jdbcType="1" def="Jyc="/>
+      <column name="goodID" sqlType="CHAR" precision="32" scale="0" nullable="true" jdbcType="1"/>
+      <column name="goodBatch" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="managerID" sqlType="CHAR" precision="32" scale="0" nullable="true" jdbcType="1"/>
+      <column name="innerTime" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <column name="innerCount" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="innerID"/>
+      <foreign-key name="Inner_good" columns="goodID,goodBatch" ref-table="Goods" ref-schema="" ref-catalog="java116Web" ref-columns="goodID,goodBatch" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="Inner_manager" columns="managerID" ref-table="Managers" ref-schema="" ref-catalog="java116Web" ref-columns="managerID" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="Inner_manager" unique="false" columns="managerID"/>
+      <index name="Inner_good" unique="false" columns="goodID,goodBatch"/>
+    </table>
+    <table name="Managers" schema="" catalog="java116Web" type="TABLE">
+      <column name="managerID" sqlType="CHAR" precision="32" scale="0" nullable="false" jdbcType="1" def="Jyc="/>
+      <column name="managerName" sqlType="VARCHAR" precision="18" scale="0" nullable="true" jdbcType="12"/>
+      <column name="managerPass" sqlType="VARCHAR" precision="18" scale="0" nullable="true" jdbcType="12"/>
+      <column name="managerState" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" def="MQ=="/>
+      <primary-key name="PRIMARY" columns="managerID"/>
+      <exported-key name="Inner_manager" table="InnerStock" schema="" catalog="java116Web" columns="managerID"/>
+      <exported-key name="outter_manager" table="OutterStock" schema="" catalog="java116Web" columns="managerID"/>
+    </table>
+    <table name="OrderDetails" schema="" catalog="java116Web" type="TABLE">
+      <column name="orderDetailID" sqlType="CHAR" precision="32" scale="0" nullable="false" jdbcType="1" def="Jyc="/>
+      <column name="orderID" sqlType="CHAR" precision="32" scale="0" nullable="true" jdbcType="1"/>
+      <column name="goodID" sqlType="CHAR" precision="32" scale="0" nullable="true" jdbcType="1"/>
+      <column name="goodCount" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="orderDetailID"/>
+      <foreign-key name="orderDetail_good" columns="goodID" ref-table="Goods" ref-schema="" ref-catalog="java116Web" ref-columns="goodID" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="orderDetail_order" columns="orderID" ref-table="Orders" ref-schema="" ref-catalog="java116Web" ref-columns="orderID" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="orderDetail_order" unique="false" columns="orderID"/>
+      <index name="orderDetail_good" unique="false" columns="goodID"/>
+    </table>
+    <table name="Orders" schema="" catalog="java116Web" type="TABLE">
+      <column name="orderID" sqlType="CHAR" precision="32" scale="0" nullable="false" jdbcType="1" def="Jyc="/>
+      <column name="orderTime" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <column name="uesrID" sqlType="CHAR" precision="32" scale="0" nullable="true" jdbcType="1"/>
+      <primary-key name="PRIMARY" columns="orderID"/>
+      <foreign-key name="order_user" columns="uesrID" ref-table="Users" ref-schema="" ref-catalog="java116Web" ref-columns="userID" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="orderDetail_order" table="OrderDetails" schema="" catalog="java116Web" columns="orderID"/>
+      <index name="order_user" unique="false" columns="uesrID"/>
+    </table>
+    <table name="OutterStock" schema="" catalog="java116Web" type="TABLE">
+      <column name="outterID" sqlType="CHAR" precision="32" scale="0" nullable="false" jdbcType="1" def="Jyc="/>
+      <column name="goodID" sqlType="CHAR" precision="32" scale="0" nullable="true" jdbcType="1"/>
+      <column name="goodBatch" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="managerID" sqlType="CHAR" precision="32" scale="0" nullable="true" jdbcType="1"/>
+      <column name="outterTime" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <column name="outterCount" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="outterID"/>
+      <foreign-key name="outter_good" columns="goodID,goodBatch" ref-table="Goods" ref-schema="" ref-catalog="java116Web" ref-columns="goodID,goodBatch" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="outter_manager" columns="managerID" ref-table="Managers" ref-schema="" ref-catalog="java116Web" ref-columns="managerID" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="outter_manager" unique="false" columns="managerID"/>
+      <index name="outter_good" unique="false" columns="goodID,goodBatch"/>
+    </table>
+    <table name="Users" schema="" catalog="java116Web" type="TABLE">
+      <column name="userID" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="userName" sqlType="VARCHAR" precision="32" scale="0" nullable="true" jdbcType="12"/>
+      <column name="userPass" sqlType="VARCHAR" precision="16" scale="0" nullable="true" jdbcType="12"/>
+      <column name="userRealName" sqlType="VARCHAR" precision="32" scale="0" nullable="true" jdbcType="12"/>
+      <column name="userBirth" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <column name="userCreateDate" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <column name="userGender" sqlType="CHAR" precision="12" scale="0" nullable="true" jdbcType="1"/>
+      <column name="userState" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" def="MA=="/>
+      <primary-key name="PRIMARY" columns="userID"/>
+      <exported-key name="bc_user" table="BuyCar" schema="" catalog="java116Web" columns="userID"/>
+      <exported-key name="order_user" table="Orders" schema="" catalog="java116Web" columns="uesrID"/>
+    </table>
+    <table name="stock" schema="" catalog="java116Web" type="TABLE">
+      <column name="stockID" sqlType="CHAR" precision="32" scale="0" nullable="false" jdbcType="1" def="Jyc="/>
+      <column name="goodID" sqlType="CHAR" precision="32" scale="0" nullable="true" jdbcType="1"/>
+      <column name="goodBatch" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="goodCount" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="stockID"/>
+      <foreign-key name="good_stock" columns="goodID,goodBatch" ref-table="Goods" ref-schema="" ref-catalog="java116Web" ref-columns="goodID,goodBatch" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="stock_good" columns="goodID" ref-table="Goods" ref-schema="" ref-catalog="java116Web" ref-columns="goodID" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="good_stock" unique="false" columns="goodID,goodBatch"/>
+    </table>
+  </data-source>
+</component>
