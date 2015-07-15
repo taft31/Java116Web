@@ -14,7 +14,7 @@ public class CityDAO extends BaseDAO{
 		
 		String str = "";
 		try {
-			if(name.equals("≥ı ºªØ")){
+			if(name.equals("ÂàùÂßãÂåñ")){
 				conn = getConn();
 				prestat = conn.prepareStatement("select name from information where rid = 0");
 				rs = prestat.executeQuery();
@@ -26,11 +26,9 @@ public class CityDAO extends BaseDAO{
 				conn = getConn();
 				String sql = "select name from information where rid = (select id from information where name=?)";
 				prestat = conn.prepareStatement(sql);
-				
 				prestat.setString(1, name);
 				rs = prestat.executeQuery();
 				while(rs.next()){
-					
 					str+= rs.getString(1)+",";
 				}
 				closeAll();

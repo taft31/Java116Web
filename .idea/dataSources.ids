@@ -18,6 +18,12 @@
       <index name="bc_user" unique="false" columns="userID"/>
       <index name="bc_good" unique="false" columns="goodID"/>
     </table>
+    <table name="China" schema="" catalog="java116Web" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="rid" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
     <table name="Goods" schema="" catalog="java116Web" type="TABLE">
       <column name="goodID" sqlType="CHAR" precision="32" scale="0" nullable="false" jdbcType="1" def="Jyc="/>
       <column name="goodBatch" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
@@ -27,13 +33,14 @@
       <column name="goodExpireTime" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="goodImg" sqlType="VARCHAR" precision="32" scale="0" nullable="true" jdbcType="12"/>
       <column name="goodState" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" def="MQ=="/>
+      <column name="goodRID" sqlType="CHAR" precision="32" scale="0" nullable="true" jdbcType="1"/>
       <primary-key name="PRIMARY" columns="goodID,goodBatch"/>
       <exported-key name="bc_good" table="BuyCar" schema="" catalog="java116Web" columns="goodID"/>
       <exported-key name="Inner_good" table="InnerStock" schema="" catalog="java116Web" columns="goodID,goodBatch"/>
       <exported-key name="orderDetail_good" table="OrderDetails" schema="" catalog="java116Web" columns="goodID"/>
       <exported-key name="outter_good" table="OutterStock" schema="" catalog="java116Web" columns="goodID,goodBatch"/>
-      <exported-key name="good_stock" table="stock" schema="" catalog="java116Web" columns="goodID,goodBatch"/>
-      <exported-key name="stock_good" table="stock" schema="" catalog="java116Web" columns="goodID"/>
+      <exported-key name="good_stock" table="Stock" schema="" catalog="java116Web" columns="goodID,goodBatch"/>
+      <exported-key name="stock_good" table="Stock" schema="" catalog="java116Web" columns="goodID"/>
     </table>
     <table name="InnerStock" schema="" catalog="java116Web" type="TABLE">
       <column name="innerID" sqlType="CHAR" precision="32" scale="0" nullable="false" jdbcType="1" def="Jyc="/>
@@ -72,6 +79,7 @@
       <column name="orderID" sqlType="CHAR" precision="32" scale="0" nullable="false" jdbcType="1" def="Jyc="/>
       <column name="orderTime" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
       <column name="uesrID" sqlType="CHAR" precision="32" scale="0" nullable="true" jdbcType="1"/>
+      <column name="orderState" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" def="MA=="/>
       <primary-key name="PRIMARY" columns="orderID"/>
       <foreign-key name="order_user" columns="uesrID" ref-table="Users" ref-schema="" ref-catalog="java116Web" ref-columns="userID" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="orderDetail_order" table="OrderDetails" schema="" catalog="java116Web" columns="orderID"/>
@@ -90,6 +98,16 @@
       <index name="outter_manager" unique="false" columns="managerID"/>
       <index name="outter_good" unique="false" columns="goodID,goodBatch"/>
     </table>
+    <table name="Stock" schema="" catalog="java116Web" type="TABLE">
+      <column name="stockID" sqlType="CHAR" precision="32" scale="0" nullable="false" jdbcType="1" def="Jyc="/>
+      <column name="goodID" sqlType="CHAR" precision="32" scale="0" nullable="true" jdbcType="1"/>
+      <column name="goodBatch" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="goodCount" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="stockID"/>
+      <foreign-key name="good_stock" columns="goodID,goodBatch" ref-table="Goods" ref-schema="" ref-catalog="java116Web" ref-columns="goodID,goodBatch" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="stock_good" columns="goodID" ref-table="Goods" ref-schema="" ref-catalog="java116Web" ref-columns="goodID" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="good_stock" unique="false" columns="goodID,goodBatch"/>
+    </table>
     <table name="Users" schema="" catalog="java116Web" type="TABLE">
       <column name="userID" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
       <column name="userName" sqlType="VARCHAR" precision="32" scale="0" nullable="true" jdbcType="12"/>
@@ -102,16 +120,6 @@
       <primary-key name="PRIMARY" columns="userID"/>
       <exported-key name="bc_user" table="BuyCar" schema="" catalog="java116Web" columns="userID"/>
       <exported-key name="order_user" table="Orders" schema="" catalog="java116Web" columns="uesrID"/>
-    </table>
-    <table name="stock" schema="" catalog="java116Web" type="TABLE">
-      <column name="stockID" sqlType="CHAR" precision="32" scale="0" nullable="false" jdbcType="1" def="Jyc="/>
-      <column name="goodID" sqlType="CHAR" precision="32" scale="0" nullable="true" jdbcType="1"/>
-      <column name="goodBatch" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="goodCount" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <primary-key name="PRIMARY" columns="stockID"/>
-      <foreign-key name="good_stock" columns="goodID,goodBatch" ref-table="Goods" ref-schema="" ref-catalog="java116Web" ref-columns="goodID,goodBatch" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="stock_good" columns="goodID" ref-table="Goods" ref-schema="" ref-catalog="java116Web" ref-columns="goodID" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="good_stock" unique="false" columns="goodID,goodBatch"/>
     </table>
   </data-source>
 </component>
